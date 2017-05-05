@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="bower_components/vue/dist/vue.js"></script>
+    <style>
+
+        .main{
+            width: 500px;
+            height:500px;
+            background-color: lightseagreen;
+            margin: 0 auto;
+            text-align: center;
+            color: white;
+        }
+        .main h3{
+            font-size: 40px;
+        }
+       .main .list{
+            width: 400px;
+            height:60px;
+            background-color: deeppink;
+            margin: 0 auto;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        .main .list1{
+            width: 400px;
+            height:60px;
+            background-color: lightgreen;
+            margin: 0 auto;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        .title,.total{
+            float: left;
+            margin-left: 20px;
+        }
+        .price,.allPrice{
+            float: right;
+            margin-right: 20px;
+        }
+        .footer{
+            width: 400px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+    </style>
+</head>
+<body>
+<div class="main">
+    <h3>Services</h3>
+    <div v-for="(msg,index) in services" @click="changes(index)" :class="{list:!services[index].active,list1:services[index].active}">
+        <p class="title">{{services[index].name}}</p>
+        <p class="price">{{services[index].price | add}}</p>
+    </div>
+    <hr width="86%">
+
+    <div class="footer">
+        <p class="total">Total:</p>
+        <p :sum="sum" class="allPrice">${{sum}}</p>
+    </div>
+
+
+</div>
+
+<script>
+    Vue.filter('add',function (msg) {
+        if(!msg) return '';
+        return '$' + msg ;
+    });
+var vm = new Vue({
+   el:'.main',
+    data:{
+        services : [
+        {
+            name: 'Web Development',
+            price: 300,
+            active:false
+        },{
+            name: 'Design',
+            price: 400,
+            active:false
+        },{
+            name: 'Integration',
+            price: 250,
+            active:false
+        },{
+            name: 'Training',
+            price: 220,
+            active:false
+        }
+    ],
+        sum:null
+
+    },
+    methods:{
+        changes:function (index) {
+            this.services[index].active = !this.services[index].active;
+            if (this.services[index].active==true){
+                this.sum += this.services[index].price;
+            }else{
+                this.sum -= this.services[index].price;
+            }
+        }
+    }
+});
+
+
+
+</script>
+</body>
+</html>
